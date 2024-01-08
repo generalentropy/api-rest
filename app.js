@@ -17,18 +17,15 @@ app
     next();
   });
 
-// Middleware
-// app.use((req, res, next) => {
-//   console.log(`URL: ${req.url}`);
-//   next();
-// });
-
 app.get("/", (req, res) => {
   res.send("👋");
 });
 
 app.get("/api/pokemon/:id", (req, res) => {
   const id = parseInt(req.params.id);
+  const exist = pokemons.find((pokemon) => pokemon.id === id);
+  console.log(exist);
+  if (!exist) return res.status(404).json({ erreur: "Ressource non trouvée" });
   const message = "Le pokemon demandé est présent dans la base";
   const pokemon = pokemons.find((poke) => poke.id === id);
   res.json(success(message, pokemon));
@@ -51,6 +48,24 @@ app.post("/api/pokemons", (req, res) => {
   pokemons.push(pokemonCreated);
   const message = `Le pokemon ${pokemonCreated.name} a été ajouté avec succès`;
   res.json(success(message, pokemonCreated));
+});
+
+app.put("/api/pokemon/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const pokemonUpdated = { ...req.body, i: id };
+  pokemons = pokemons.map((pokemon) =>
+    pokemon.id !== id ? pokemon : pokemonUpdated
+  );
+  const message = `Le pokemon ${pokemonUpdated.name} a été modifié avec succès`;
+  res.json(success(message, pokemonUpdated));
+});
+
+app.delete("/api/pokemon/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const pokemonDeleted = pokemons.find((pokemon) => pokemon.id === id);
+  pokemons = pokemons.filter((pokemon) => pokemon.id !== id);
+  const message = `Le pokemon ${pokemonDeleted.name} a été supprimé avec succès`;
+  res.json(success(message, pokemonDeleted));
 });
 
 app.listen(port, () =>
