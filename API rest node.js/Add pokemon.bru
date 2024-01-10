@@ -1,0 +1,24 @@
+meta {
+  name: Add pokemon
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/pokemons
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Chenipute",
+    "hp": 10,
+    "cp": 3,
+    "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
+    "types": [
+      "Guignol",
+      "Rampant"
+    ]
+  }
+}

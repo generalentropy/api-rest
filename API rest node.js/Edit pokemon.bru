@@ -1,0 +1,24 @@
+meta {
+  name: Edit pokemon
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:3000/api/pokemon/13
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Chrysacier",
+    "hp": 10,
+    "cp": 3,
+    "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
+    "types": [
+      "Guignol",
+      "Rampant"
+    ]
+  }
+}

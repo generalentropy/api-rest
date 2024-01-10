@@ -11,14 +11,10 @@ const port = 3000;
 app
   .use(favicon(__dirname + "/favicon.ico"))
   .use(morgan("dev"))
-  .use(bodyParser.json())
-  .use((req, res, next) => {
-    console.log(`path: ${req.url}`);
-    next();
-  });
+  .use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("👋");
+  res.send("Bienvenue👋");
 });
 
 app.get("/api/pokemon/:id", (req, res) => {
@@ -52,7 +48,7 @@ app.post("/api/pokemons", (req, res) => {
 
 app.put("/api/pokemon/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const pokemonUpdated = { ...req.body, i: id };
+  const pokemonUpdated = { ...req.body, id: id };
   pokemons = pokemons.map((pokemon) =>
     pokemon.id !== id ? pokemon : pokemonUpdated
   );
@@ -64,7 +60,7 @@ app.delete("/api/pokemon/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const pokemonDeleted = pokemons.find((pokemon) => pokemon.id === id);
   pokemons = pokemons.filter((pokemon) => pokemon.id !== id);
-  const message = `Le pokemon ${pokemonDeleted.name} a été supprimé avec succès`;
+  const message = `Le pokemon ${pokemonDeleted.name} été supprimé avec succès`;
   res.json(success(message, pokemonDeleted));
 });
 
