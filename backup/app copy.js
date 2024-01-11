@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
-const { success, createId } = require("../helper.js");
+const { success, createId } = require("./helper.js");
 const bodyParser = require("body-parser");
 const { Sequelize, DataTypes } = require("sequelize");
 let pokemons = require("../src/db/mock-pokemon.js");

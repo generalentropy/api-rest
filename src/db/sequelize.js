@@ -5,10 +5,12 @@ const pokemons = require("./mock-pokemon");
 
 const sequelize = new Sequelize("pokedex", "root", "", {
   host: "localhost",
+  port: 3306,
   dialect: "mariadb",
   dialectOptions: {
-    timezone: "Etc/GMT-2",
+    useUTC: false,
   },
+  timezone: "Europe/Paris",
   logging: false,
 });
 
