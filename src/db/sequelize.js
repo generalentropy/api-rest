@@ -3,9 +3,8 @@ const { Sequelize, DataTypes } = require("sequelize");
 const PokemonModel = require("../models/pokemons");
 const pokemons = require("./mock-pokemon");
 
-const sequelize = new Sequelize("pokedex", "root", "", {
+const sequelize = new Sequelize("pokedex", "root", "azerty", {
   host: "localhost",
-  port: 3306,
   dialect: "mariadb",
   dialectOptions: {
     useUTC: false,
