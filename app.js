@@ -21,6 +21,12 @@ require("./src/routes/createPokemons")(app);
 require("./src/routes/updatePokemon")(app);
 require("./src/routes/deletePokemon")(app);
 
+// Erreurs 404
+app.use((req, res) => {
+  const message = `La ressource demandée n'existe pas : ${req.url}`;
+  res.status(404).json({ message });
+});
+
 app.listen(port, () =>
   console.log(`Serveur démarré sur http://localhost:${port}`)
 );
