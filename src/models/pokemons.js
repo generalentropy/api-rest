@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: `Le pokemon doit avoir un nom` },
+          notEmpty: {
+            msg: `La propriété ne peut pas être une chaîne de caractère vide`,
+          },
+        },
       },
       hp: {
         type: DataTypes.INTEGER,
@@ -29,15 +35,48 @@ module.exports = (sequelize, DataTypes) => {
           },
           notNull: { msg: `Les points de vie sont une propriété obligatoire` },
           notEmpty: { msg: `Ne peut pas etre une chaine vide` },
+          max: {
+            args: [999],
+            msg: "Value must be less than or equal to 999",
+          },
+          min: {
+            // https://github.com/sequelize/sequelize/issues/7815
+            args: [0],
+            msg: "Value must be 0 or greater",
+          },
         },
       },
       cp: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          isInt: {
+            msg: `Utilisez uniquement un nombre entier pour les points de dégats`,
+          },
+          notNull: {
+            msg: `Les points de dégats sont une propriété obligatoire`,
+          },
+          notEmpty: { msg: `Ne peut pas etre une chaine vide` },
+          max: {
+            args: [99],
+            msg: "Value must be less than or equal to 99",
+          },
+          min: {
+            // https://github.com/sequelize/sequelize/issues/7815
+            args: [0],
+            msg: "Value must be 0 or greater",
+          },
+        },
       },
       picture: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: `La propriété ne doit pas être null` },
+          isUrl: {
+            msg: `La propriété doit être une URL valide`,
+          },
+        },
       },
       types: {
         type: DataTypes.STRING,
@@ -47,6 +86,14 @@ module.exports = (sequelize, DataTypes) => {
         },
         set(types) {
           this.setDataValue("types", types.join());
+        },
+        isTypesValid(value) {
+          if (!value) {
+            throw new Error(`La propriété doit avoir au moins un type`);
+          }
+          if (value.split(",").length > 3) {
+            throw new Error(`Un pokemon ne peut avoir plus de 3 types`);
+          }
         },
       },
     },
