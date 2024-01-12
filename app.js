@@ -17,6 +17,9 @@ sequelize.initDb();
 // Points de terminaison
 require("./src/routes/findAllPokemons")(app);
 require("./src/routes/findPokemonByPk")(app);
+require("./src/routes/createPokemons")(app);
+require("./src/routes/updatePokemon")(app);
+require("./src/routes/deletePokemon")(app);
 
 app.listen(port, () =>
   console.log(`Serveur démarré sur http://localhost:${port}`)
