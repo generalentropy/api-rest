@@ -4,6 +4,8 @@
 // param 1 : sequalize : instance de la connexion à la base de données
 // param 2 : DataTypes : types de données
 
+// https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/
+
 // On décrit toutes les propriétés de notre modèle
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
@@ -21,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       hp: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          isInt: {
+            msg: `Utilisez uniquement un nombre entier pour les points de vie`,
+          },
+          notNull: { msg: `Les points de vie sont une propriété obligatoire` },
+          notEmpty: { msg: `Ne peut pas etre une chaine vide` },
+        },
       },
       cp: {
         type: DataTypes.INTEGER,
