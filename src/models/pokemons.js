@@ -6,6 +6,18 @@
 
 // https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/
 
+const validTypes = [
+  "Plante",
+  "Poison",
+  "Feu",
+  "Eau",
+  "Insecte",
+  "Normal",
+  "Vol",
+  "Electrik",
+  "Fée",
+];
+
 // On décrit toutes les propriétés de notre modèle
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
@@ -87,13 +99,23 @@ module.exports = (sequelize, DataTypes) => {
         set(types) {
           this.setDataValue("types", types.join());
         },
-        isTypesValid(value) {
-          if (!value) {
-            throw new Error(`La propriété doit avoir au moins un type`);
-          }
-          if (value.split(",").length > 3) {
-            throw new Error(`Un pokemon ne peut avoir plus de 3 types`);
-          }
+        validate: {
+          isTypesValid(value) {
+            if (!value) {
+              throw new Error(`La propriété doit avoir au moins un type`);
+            }
+            if (value.split(",").length > 3) {
+              throw new Error(`Un pokemon ne peut avoir plus de 3 types`);
+            }
+            value.split(",").forEach((type) => {
+              console.log(type);
+              if (!validTypes.includes(type)) {
+                throw new Error(
+                  `Le type ${type} n'est pas autorisé. Les types autorisés sont : ${validTypes}`
+                );
+              }
+            });
+          },
         },
       },
     },
